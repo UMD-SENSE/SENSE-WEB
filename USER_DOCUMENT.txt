@@ -1,0 +1,15 @@
+Venv activate: $ source venv/bin/activate
+
+Run falsk app locally: FLASK_APP=hello.py flask run
+
+
+1 mysql -u root -p
+2 CREATE DATABASE myflaskapp
+3 USE myflaskapp
+
+4 create user table
+CREATE TABLE users(id INT(11) AUTO_INCREMENT PRIMARY KEY, name VARCHAR(100), email VARCHAR(100), username VARCHAR(30), password VARCHAR(100), register_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP)
+
+5 create article table
+CREATE TABLE articles (id INT(11) AUTO_INCREMENT PRIMARY KEY, title VARCHAR(255), author VARCHAR(100), body TEXT, create_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP)
+

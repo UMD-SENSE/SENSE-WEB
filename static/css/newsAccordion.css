@@ -76,7 +76,7 @@
   transition: all 400ms ease;
 }
 
-.accordion ul li div a h2 {
+#accordion_text {
   font-family: Montserrat, sans-serif;
   text-overflow: clip;
   font-size: 20px;
@@ -98,27 +98,27 @@
 }
 
 .accordion ul li:nth-child(2) {
-    background-image: url("../img/Revision1.jpg");
+    background-image: url("../img/accordion/Revision1.jpg");
     background-size: cover;
 }
 
 .accordion ul li:nth-child(3) {
-    background-image: url("../img/continuedTesting.jpg");
+    background-image: url("../img/accordion/continuedTesting.jpg");
     background-size: cover;
 }
 
 .accordion ul li:nth-child(4) {
-    background-image: url("../img/rooftop.jpg");
+    background-image: url("../img/accordion/rooftop.jpg");
     background-size: cover;
 }
 
 .accordion ul li:nth-child(5) {
-    background-image: url("../img/station.jpg");
+    background-image: url("../img/accordion/station.jpg");
     background-size: cover;
 }
 
 .accordion ul li:nth-child(6) {
-    background-image: url("../img/urbanCO2.png");
+    background-image: url("../img/accordion/urbanCO2.png");
     background-size: cover;
 }
 

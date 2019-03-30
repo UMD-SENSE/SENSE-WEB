@@ -129,13 +129,13 @@ def login():
                 session['logged_in'] = True
                 session['username'] = username
 
-                    # if data['type'] == 'admin':
-                    #     session['is_admin'] = True
+                if data['type'] == 'admin':
+                    session['is_admin'] = True
 
                 flash('You are now logged in', 'success')
                 return redirect(url_for('dashboard'))
             else:
-                error = 'Invalid login'
+                error = 'Invalid password'
                 return render_template('login.html', error=error)
             # Close connection
             cur.close()
@@ -230,7 +230,7 @@ def add_article():
 
 # Edit Article
 @app.route('/edit_article/<string:id>', methods=['GET', 'POST'])
-# @is_admin
+@is_admin
 @is_logged_in
 def edit_article(id):
     # Create cursor
@@ -271,7 +271,7 @@ def edit_article(id):
 
 # Delete Article
 @app.route('/delete_article/<string:id>', methods=['POST'])
-# @is_admin
+@is_admin
 @is_logged_in
 def delete_article(id):
     # Create cursor
@@ -303,5 +303,4 @@ def sensor_location():
 if __name__ == '__main__':
     app.secret_key='******'
     app.config['SESSION_TYPE'] = 'filesystem'
-    sess.init_app(app)
     app.run(debug=True,host='0.0.0.0',threaded=True)

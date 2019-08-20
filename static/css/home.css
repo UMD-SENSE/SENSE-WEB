@@ -1,0 +1,92 @@
+/* Carousel */
+#wrapper {
+    height: 300px;
+    overflow: hidden;
+}
+
+.carousel {
+    height: 300px;
+}
+
+#slider .item {
+    height: 300px;
+    background-size: cover;
+}
+
+.carousel-inner {
+    height: inherit;
+}
+
+#slide1 {
+    background: url("../img/carousel/umd_mall.png") center no-repeat;
+}
+
+#slide2 {
+    background: url("../img/carousel/nature.jpg") center no-repeat;
+}
+
+#slide3 {
+    background: url("../img/carousel/sunset.jpg") center no-repeat;
+}
+
+/* Main content */
+#main {
+    padding: 1.5em 3em;   
+}
+
+#content {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.container {
+    background: white;
+}
+
+.panel {
+    margin: 1em 2em;
+    padding: 0.5em 1.5em;
+    background-color: #eeeeee;
+    border-radius: 10px;
+}
+
+#welcome {
+    padding-bottom: 3em;
+}
+
+#learnMore {
+    border-radius: 10px;
+    border: 1px solid; 
+    background-color: white;
+    padding: 0.2em 0.3em;
+    text-align: center;
+    float: right;
+}
+
+#recentNews {
+    flex-grow: 5;
+}
+
+#demo {
+    flex-grow: 5;
+}
+
+#socialMedia {
+    width: 380px;
+    flex-grow: 0;
+}   
+
+.mainText {
+    max-width: none;
+    margin: 0 auto;
+    background: #f9f9f9;
+    font-size: 22px;
+}
+
+/**Media**/
+@media screen and (max-width: 500px) {
+    #main {
+        padding: 0;   
+    }
+}
+

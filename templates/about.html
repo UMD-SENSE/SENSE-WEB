@@ -1,45 +1,158 @@
 {% extends 'layout.html' %}
+{% block head %}
+{{ super() }}
+<title>About | SENSE</title>
+<script src="https://unpkg.com/scrollreveal/dist/scrollreveal.min.js"></script>
+<style>
+  .images {
+    max-width: 100%;
+    height: auto;
+  }
+</style>
+{% endblock %}
 
-{% block body %}
-  <div class="container">
-    <h1>About Us</h1>
-    <p><strong>SENSE:</strong></p>
-     <p>Monitoring weather, air pollution and greenhouse gases with a low-cost smart sensor network.</p>
-     <p>A University of Maryland student research project.</p>
-     <p>&nbsp;</p>
-     <p><strong>Why the project?</strong></p>
-     <p>Current monitoring approach typically consists of high-accuracy but high-cost instruments (e.g., &gt;$100,000 for a Picarro CO2/CH4/H2O analyzer), which limits their wide-spread use.</p>
-     <p><strong>Our Idea:</strong></p>
-     <ul>
-     <li>Using low-cost moderate-precision sensors in a smart network to quantify the spatial characteristics of air pollution gases and GHGs;</li>
-     <li>Engaging students, educators, city residents, researchers, and government agencies, through real-time information display/feedback via web and cell phone apps;</li>
-     <li>A good sense of one’s personal environment motivates and empowers individual citizen and groups for action.</li>
-     </ul>
-     <p>&nbsp;</p>
-     <p><strong>Things a student can learn / do in this project:</strong></p>
-     <p>Measurement techniques for weather/pollution/GHG</p>
-     <ul>
-     <li>Instrumentation: sensors for T,RH,P,CO2,CH4,CO,O3,PM2.5,VOC,anemometer,vane,…</li>
-     <li>Electronics: circuitry, Arduino, Raspberry Pi, 3D printing, …</li>
-     <li>Networking/communication: wireless via WIFI/cellphone network, …</li>
-     </ul>
-     <p>Data collection and analysis</p>
-     <ul>
-     <li>Programming skills in Unix shell, python, C/Fortran, graphics, GIS, etc.</li>
-     <li>Statistical analysis: regression, neural network, etc.</li>
-     </ul>
-     <p>Modeling</p>
-     <ul>
-     <li>Mesoscale atmospheric modeling:</li>
-     <li>Carbon cycle/chemistry models:</li>
-     <li>Data assimilation</li>
-     </ul>
-     <p>Outreach/Management/Leadership</p>
-     <ul>
-     <li>Deployment and maintenance of sensor network</li>
-     <li>Dissemination and use of information: enpowering individuals and groups for action</li>
-     <li>Working with K-12 students/teachers, residents, companies, colleges and government agencies</li>
-     </ul>
-     <p>For more information, please <a href="http://sense.umd.edu/request-info/#contact">contact us</a>:</p>
+{% block content %}
+{{ super() }}
+<h1>About Us</h1>
+
+<div class="container mainText" style="padding: 1em 2em;">
+  <div class="row">
+    <h2>Who are we</h2>
+    <p>SENSE is a student research project developed at <a href="https://www.umd.edu">University of
+        Maryland</a>, that monitors weather, air pollution, and greenhouse gases with low-cost,
+      high-density smart sensors in an urban environment.</p>
+    <br>
+    <h2>Why <b>SENSE</b>?</h2>
+    <p>The current monitoring approach typically consists of high-accuracy but high-cost instruments (e.g., > $100,000
+      for a Picarro CO2/CH4/H2O analyzer), which
+      limits their wide-spread use.</p>
+    <br>
+    <h2>Our Idea</h2>
+    <ul style="list-style-type:disc">
+      <li>Using low-cost moderate-precision sensors in a smart network to quantify the spatial
+        characteristics of air pollution gases and GHGs</li>
+      <br>
+      <li>Engaging students, educators, city residents, researchers, and government agencies, through real-time
+        information display/feedback via web and cell phone apps;</li>
+      <br>
+      <li>A good sense of one’s personal environment motivates and empowers individual citizen and groups for action.
+      </li>
+    </ul>
+    <h2>What students can learn / do in this project:</h2>
   </div>
+
+  <div class="container">
+    <div class="col-md-6 col-sm-6">
+      <div>
+        <br>
+        <h3>Measurement techniques</h3>
+        <ul>
+          <li>Instrumentation
+            <ul>
+              <li>sensors for T, RH, P, CO2, CH4, CO, O3, PM2.5, VOC, anemometer, vane, …</li>
+            </ul>
+          </li>
+          <br>
+          <li>Electronics
+            <ul>
+              <li>circuitry, Arduino, Raspberry Pi, 3D printing, …</li>
+            </ul>
+          </li>
+          <br>
+          <li>Networking/communication
+            <ul>
+              <li>wireless via WIFI/cellphone network, …</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-md-6 col-sm-6">
+      <div>
+        <img class="images" src="static/img/raspberry_pi.png" width="357" height="320">
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="col-md-6 col-sm-6">
+      <div>
+        <br>
+        <h3>Data Collection and Analysis</h3>
+        <ul>
+          <li>Programming skills:
+            <ul>
+              <li>Unix shell, python, C/Fortran, graphics, GIS, etc.</li>
+            </ul>
+          </li>
+          <br>
+          <li>Statistical analysis:
+            <ul>
+              <li>regression, neural network, etc.</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-md-6 col-sm-6">
+      <div>
+        <img class="images" src="static/img/programming.png" height="370" width="370">
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="col-md-6 col-sm-6">
+      <div>
+        <br>
+        <h3>Modeling</h3>
+        <ul>
+          <li>Mesoscale atmospheric modeling</li>
+          <br>
+          <li>Carbon cycle/chemistry models</li>
+          <br>
+          <li>Data assimilation</li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-md-6 col-sm-6">
+      <div>
+        <img class="images" src="static/img/carbon_cycle.png" height="220" width="300">
+      </div>
+    </div>
+  </div>
+  <br><br>
+  <div class="container">
+    <div class="col-md-6 col-sm-6">
+      <div>
+        <br>
+        <h3>Outreach / Management / Leadership</h3>
+        <ul>
+          <li>Deployment and maintenance of sensor network</li>
+          <br>
+          <li>Dissemination and use of information</li>
+          <br>
+          <li>Working with K-12 students/teachers, residents, companies, colleges and government
+            agencies</li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-md-6 col-sm-6">
+      <div>
+        <img class="images" src="static/img/outreach.png" height="200" width="300">
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const mq = window.matchMedia("(min-width: 500px)");
+  if (mq.matches) {
+    window.sr = ScrollReveal();
+    sr.reveal('.images', {
+      duration: 1000,
+      origin: 'right',
+      distance: '300px',
+      viewFactor: 0.2
+    });
+  }
+</script>
 {% endblock %}

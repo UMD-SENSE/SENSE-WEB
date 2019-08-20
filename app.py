@@ -3,9 +3,13 @@ from flask_mysqldb import MySQL
 from wtforms import Form, StringField, TextAreaField, PasswordField, validators
 from passlib.hash import sha256_crypt
 from functools import wraps
+from werkzeug.utils import secure_filename  # new
+from flask import send_from_directory  # new
 import os
 
 basedir = os.path.abspath(os.path.dirname(__file__))
+UPLOAD_FOLDER = basedir + '/uploads'  # new
+ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])  # new
 
 app = Flask(__name__)
 
@@ -15,22 +19,86 @@ app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = '******'
 app.config['MYSQL_DB'] = 'myflaskapp'
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER  # new
 
 # init MYSQL
 mysql = MySQL(app)
 
 # Index
+
+
 @app.route('/')
 def index():
-    return render_template('sense_index.html')
+    # Create cursor
+    cur = mysql.connection.cursor()
+
+    # Get articles
+    result = cur.execute("SELECT * FROM articles")
+
+    articles = cur.fetchall()
+
+    if result > 0:
+        return render_template('sense_index.html', articles=articles)
+    else:
+        msg = 'No Articles Found'
+        return render_template('sense_index.html', msg=msg)
+    # Close connection
+    cur.close()
 
 # About
+
+
 @app.route('/about')
 def about():
     return render_template('about.html')
 
+# ---------------------------------------------------------------------
+
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
+@app.route('/', methods=['GET', 'POST'])
+def upload_file():
+    if request.method == 'POST':
+        # check if the post request has the file part
+        if 'file' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
+        file = request.files['file']
+        # if user does not select file, browser also
+        # submit an empty part without filename
+        if file.filename == '':
+            flash('No selected file')
+            return redirect(request.url)
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            return redirect(url_for('uploaded_file',
+                                    filename=filename))
+    return '''
+    <!doctype html>
+    <title>Upload new File</title>
+    <h1>Upload new File</h1>
+    <form method=post enctype=multipart/form-data>
+      <input type=file name=file>
+      <input type=submit value=Upload>
+    </form>
+    '''
+
+
+@app.route('/uploads/<filename>')
+def uploaded_file(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'],
+                               filename)
+
+# ---------------------------------------------------------------------
 
 # Articles
+
+
 @app.route('/articles')
 def articles():
     # Create cursor
@@ -50,7 +118,7 @@ def articles():
     cur.close()
 
 
-#Single Article
+# Single Article
 @app.route('/article/<string:id>/')
 def article(id):
     # Create cursor
@@ -61,7 +129,7 @@ def article(id):
 
     article = cur.fetchone()
 
-    return render_template('article.html', article=article)
+    return render_template('news_article.html', article=article)
 
 
 # Register Form Class
@@ -90,7 +158,8 @@ def register():
         cur = mysql.connection.cursor()
 
         # Execute query
-        cur.execute("INSERT INTO users(name, email, username, password) VALUES(%s, %s, %s, %s)", (name, email, username, password))
+        cur.execute("INSERT INTO users(name, email, username, password) VALUES(%s, %s, %s, %s)",
+                    (name, email, username, password))
 
         # Commit to DB
         mysql.connection.commit()
@@ -116,7 +185,8 @@ def login():
         cur = mysql.connection.cursor()
 
         # Get user by username
-        result = cur.execute("SELECT * FROM users WHERE username = %s", [username])
+        result = cur.execute(
+            "SELECT * FROM users WHERE username = %s", [username])
 
         if result > 0:
             # Get stored hash
@@ -146,6 +216,8 @@ def login():
     return render_template('login.html')
 
 # Check if user logged in
+
+
 def is_logged_in(f):
     @wraps(f)
     def wrap(*args, **kwargs):
@@ -157,6 +229,8 @@ def is_logged_in(f):
     return wrap
 
 # Check if the account is admin
+
+
 def is_admin(f):
     @wraps(f)
     def wrap(*args, **kwargs):
@@ -168,6 +242,8 @@ def is_admin(f):
     return wrap
 
 # Logout
+
+
 @app.route('/logout')
 @is_logged_in
 def logout():
@@ -176,6 +252,8 @@ def logout():
     return redirect(url_for('login'))
 
 # Dashboard
+
+
 @app.route('/dashboard')
 @is_logged_in
 def dashboard():
@@ -196,11 +274,15 @@ def dashboard():
     cur.close()
 
 # Article Form Class
+
+
 class ArticleForm(Form):
     title = StringField('Title', [validators.Length(min=1, max=200)])
     body = TextAreaField('Body', [validators.Length(min=30)])
 
 # Add Article
+
+
 @app.route('/add_article', methods=['GET', 'POST'])
 @is_logged_in
 def add_article():
@@ -213,12 +295,13 @@ def add_article():
         cur = mysql.connection.cursor()
 
         # Execute
-        cur.execute("INSERT INTO articles(title, body, author) VALUES(%s, %s, %s)",(title, body, session['username']))
+        cur.execute("INSERT INTO articles(title, body, author) VALUES(%s, %s, %s)",
+                    (title, body, session['username']))
 
         # Commit to DB
         mysql.connection.commit()
 
-        #Close connection
+        # Close connection
         cur.close()
 
         flash('Article Created', 'success')
@@ -256,11 +339,12 @@ def edit_article(id):
         cur = mysql.connection.cursor()
         app.logger.info(title)
         # Execute
-        cur.execute ("UPDATE articles SET title=%s, body=%s WHERE id=%s",(title, body, id))
+        cur.execute(
+            "UPDATE articles SET title=%s, body=%s WHERE id=%s", (title, body, id))
         # Commit to DB
         mysql.connection.commit()
 
-        #Close connection
+        # Close connection
         cur.close()
 
         flash('Article Updated', 'success')
@@ -270,6 +354,8 @@ def edit_article(id):
     return render_template('edit_article.html', form=form)
 
 # Delete Article
+
+
 @app.route('/delete_article/<string:id>', methods=['POST'])
 @is_admin
 @is_logged_in
@@ -283,7 +369,7 @@ def delete_article(id):
     # Commit to DB
     mysql.connection.commit()
 
-    #Close connection
+    # Close connection
     cur.close()
 
     flash('Article Deleted', 'success')
@@ -291,16 +377,21 @@ def delete_article(id):
     return redirect(url_for('dashboard'))
 
 # People
+
+
 @app.route('/people')
 def people():
     return render_template('people.html')
 
 # Sensor Location
+
+
 @app.route('/sensor_location')
 def sensor_location():
     return render_template('sensor_location.html')
 
+
 if __name__ == '__main__':
-    app.secret_key='******'
+    app.secret_key = '******'
     app.config['SESSION_TYPE'] = 'filesystem'
-    app.run(debug=True,host='0.0.0.0',threaded=True)
+    app.run(debug=True, host='0.0.0.0', threaded=True)

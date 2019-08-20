@@ -76,13 +76,6 @@
     flex-grow: 0;
 }   
 
-.mainText {
-    max-width: none;
-    margin: 0 auto;
-    background: #f9f9f9;
-    font-size: 22px;
-}
-
 /**Media**/
 @media screen and (max-width: 500px) {
     #main {
